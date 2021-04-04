@@ -14,6 +14,8 @@ const {
 
 expect.addSnapshotSerializer(domSnapshotSerializer);
 
+const RUN_REPLACEMENTS = !process.env.TEST_OFFICIAL_VDOM;
+
 beforeAll(() => {
   const baseDir = path.dirname(__dirname);
   const elmDir = path.join(baseDir, "tests", "elm");
@@ -35,7 +37,10 @@ beforeAll(() => {
   const newCode = code
     .replace(/\(this\)\);\s*$/, "(window));")
     .replace(/console.warn\('[^']+'\);/, "");
-  fs.writeFileSync(output, runReplacements(newCode));
+  fs.writeFileSync(
+    output,
+    RUN_REPLACEMENTS ? runReplacements(newCode) : newCode
+  );
   require(output);
 }, 60 * 1000);
 
@@ -81,10 +86,10 @@ test("All virtual DOM node types", async () => {
       ➕  http://www.w3.org/XML/1998/namespace:xml:lang="en-US"
       ➕/>
       ➕<button
-      ➕  style="outline: 1px solid red;"
       ➕  id="next"
-      ➕  type="button"
+      ➕  style="outline: 1px solid red;"
       ➕  tabindex="1"
+      ➕  type="button"
       ➕  ➕on:click:passive
       ➕>
       ➕  "Next"
@@ -134,10 +139,10 @@ test("All virtual DOM node types", async () => {
         http://www.w3.org/XML/1998/namespace:xml:lang="en-US"
       />
       <button
-        style="outline: 1px solid red;"
         id="next"
-        type="button"
+        style="outline: 1px solid red;"
         tabindex="1"
+        type="button"
         on:click:passive
       >
         "Next"
@@ -187,10 +192,10 @@ test("All virtual DOM node types", async () => {
         http://www.w3.org/XML/1998/namespace:xml:lang="en-US"
       />
       <button
-        style="outline: 1px solid red;"
         id="next"
-        type="button"
+        style="outline: 1px solid red;"
         tabindex="1"
+        type="button"
         on:click:passive
       >
         "Next"
@@ -240,10 +245,10 @@ test("All virtual DOM node types", async () => {
         http://www.w3.org/XML/1998/namespace:xml:lang="en-US"
       />
       <button
-        style="outline: 1px solid red;"
         id="next"
-        type="button"
+        style="outline: 1px solid red;"
         tabindex="1"
+        type="button"
         on:click:passive
       >
         "Next"

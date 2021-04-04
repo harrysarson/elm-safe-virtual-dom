@@ -126,9 +126,9 @@ test("all the things", async () => {
       ➕"Some \\"cool\\" text with trailing spaces   "
       ➕"text2"
       ➕<div
-      ➕  id="container"
       ➕  class="mb4"
       ➕  data-value="some value"
+      ➕  id="container"
       ➕  ➕on:click:capture
       ➕  ➕on:click
       ➕  ➕on:click
@@ -158,8 +158,8 @@ test("all the things", async () => {
       ️🚨"text2"🔀"text2"
       <div
         class="mb4"🔀"mb4 pb8"
-        ️🚨data-value="some value"🔀"some value"
         ➕title="Title text"
+        ️🚨data-value="some value"🔀"some value"
         ➖id="container"
         on:click:capture
         ➖on:click

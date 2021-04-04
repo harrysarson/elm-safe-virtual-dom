@@ -147,7 +147,7 @@ function stringifyAttributes(element, change) {
           attr2.name === attr.name && attr2.namespaceURI === attr.namespaceURI
       );
       return inserted ? added(string) : string;
-    }),
+    }).sort(),
     ...change.removedAttributes.map((attr) =>
       removed(`${attrName(attr)}=${JSON.stringify(attr.oldValue)}`)
     ),
