@@ -14,7 +14,8 @@ const {
 
 expect.addSnapshotSerializer(domSnapshotSerializer);
 
-const RUN_REPLACEMENTS = !process.env.TEST_OFFICIAL_VDOM;
+const TEST_OFFICIAL_VDOM = !!process.env.TEST_OFFICIAL_VDOM;
+const ELM_COMPILER = process.env.ELM_COMPILER || "elm";
 
 beforeAll(() => {
   const baseDir = path.dirname(__dirname);
@@ -23,7 +24,7 @@ beforeAll(() => {
   const output = path.join(baseDir, "tests", "elm.js");
   const result = childProcess.spawnSync(
     "npx",
-    ["elm", "make", ...files, "--output", output],
+    [ELM_COMPILER, "make", ...files, "--output", output],
     {
       shell: true,
       cwd: baseDir,
@@ -39,7 +40,7 @@ beforeAll(() => {
     .replace(/console.warn\('[^']+'\);/, "");
   fs.writeFileSync(
     output,
-    RUN_REPLACEMENTS ? runReplacements(newCode) : newCode
+    TEST_OFFICIAL_VDOM ? newCode : runReplacements(newCode)
   );
   require(output);
 }, 60 * 1000);
@@ -301,7 +302,7 @@ test("Browser.application", async () => {
   `);
 });
 
-describe("virtualize", () => {
+(TEST_OFFICIAL_VDOM ? describe.skip : describe)("virtualize", () => {
   const html = `<div>http://localhost/<a href="/test">link</a></div><script></script>`;
   const virtualize = (node) => node.localName !== "script";
 
